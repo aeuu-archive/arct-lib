@@ -2,7 +2,6 @@ package io.arct.arctlib.plugin
 
 import io.arct.arctlib.configuration.Configurations
 import io.arct.arctlib.extentions.color
-import io.arct.arctlib.extentions.save
 import io.arct.arctlib.plugin.command.PluginCommand
 import io.arct.arctlib.ui.GUI
 import org.bukkit.configuration.Configuration
@@ -71,9 +70,8 @@ abstract class Plugin : JavaPlugin() {
      *
      * @return The message.
      */
-    open fun message(code: String): String {
-        return messages.getString(code)?.color() ?: ""
-    }
+    open fun message(code: String): String =
+        (messages.getString(code) ?: "&4Internal Error&8: &cCould not find message&8.").color()
 
     fun reload() {
         disable()
@@ -109,7 +107,7 @@ abstract class Plugin : JavaPlugin() {
         for (player in server.onlinePlayers)
             player.closeInventory()
 
-        for (config in configurations)
-            config.value.save()
+//        for (config in configurations)
+//            config.value.save()
     }
 }

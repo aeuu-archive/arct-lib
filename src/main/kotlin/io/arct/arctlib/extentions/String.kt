@@ -1,6 +1,7 @@
 package io.arct.arctlib.extentions
 
 import org.bukkit.ChatColor
+import org.bukkit.util.StringUtil
 
 /**
  * Get if two [String]s are similar (equal ignoring case).
@@ -11,6 +12,14 @@ import org.bukkit.ChatColor
  */
 infix fun String.similar(other: String): Boolean {
     return this.toLowerCase() == other.toLowerCase()
+}
+
+infix fun String.matching(candidates: List<String>): List<String> {
+    val matches: MutableList<String> = mutableListOf()
+
+    StringUtil.copyPartialMatches(this, candidates, matches)
+
+    return matches
 }
 
 /**

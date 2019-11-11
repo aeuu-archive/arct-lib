@@ -9,8 +9,10 @@ softdepend:
 
 commands:
   simple:
-    description: 'Hello, World!'
+    description: 'Test Basic Functionality'
   ui:
-    description: 'Test GUI'
+    description: 'Test GUI Functionality'
   config:
-    description: 'Test Configs'
+    description: 'Test Configuration Functionality'
+  tabcomplete:
+    description: 'Test Tab Completion Functionality'

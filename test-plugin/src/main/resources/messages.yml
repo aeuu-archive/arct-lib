@@ -1,1 +1,5 @@
 lolol: '&7f&rg&ag'
+
+error:
+  no-player: '&ePlayers &7are &cevil'
+  no-console: '&eConsoles &7are &cevil'

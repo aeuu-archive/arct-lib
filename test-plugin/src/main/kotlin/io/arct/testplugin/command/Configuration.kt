@@ -22,8 +22,11 @@ class Configuration(plugin: Plugin) : PluginCommand("config", plugin) {
         player!!
 
         when (args[0].toLowerCase()) {
-            "simple" ->
-                player.sendMessage(plugin.message("lolol").color())
+            "config" ->
+                player.sendMessage(plugin.config.getString("test123")!!.color())
+
+            "message" ->
+                player.sendMessage(plugin.message("lolol"))
 
             "item" ->
                 player.inventory.addItem(plugin.config.item("config.item")!!)

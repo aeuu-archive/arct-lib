@@ -55,6 +55,7 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
      */
     fun register(): PluginCommand {
         plugin.getCommand(name)?.setExecutor(this)
+        plugin.getCommand(name)?.setTabCompleter { sender, command, _, args -> arguments(sender, command, args).sorted() }
 
         return this
     }
@@ -68,4 +69,6 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
      * @param args The parameters given from the command.
      */
     abstract fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>)
+
+    open fun arguments(sender: CommandSender, command: Command, args: Array<out String>): List<String> = listOf()
 }

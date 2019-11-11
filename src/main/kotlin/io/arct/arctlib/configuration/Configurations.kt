@@ -1,5 +1,6 @@
 package io.arct.arctlib.configuration
 
+import io.arct.arctlib.extentions.save
 import io.arct.arctlib.plugin.Plugin
 import java.io.File
 import org.bukkit.configuration.file.FileConfiguration
@@ -20,7 +21,7 @@ open class Configurations {
 
             if (!file.exists()) {
                 file.parentFile.mkdirs()
-                file.createNewFile()
+                plugin.saveResource(path, false)
             }
 
             val config = YamlConfiguration.loadConfiguration(file)
@@ -28,6 +29,7 @@ open class Configurations {
             configurationFileMap[config] = file
 
             config.options().copyDefaults(true)
+            config.save()
 
             return config
         }

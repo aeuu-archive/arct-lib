@@ -1,0 +1,16 @@
+name: 'TestPlugin'
+description: 'A test plugin for ArctLib'
+version: '1.0.0'
+api-version: '1.14'
+main: 'io.arct.testplugin.TestPlugin'
+
+softdepend:
+  - 'ArctCore'
+
+commands:
+  simple:
+    description: 'Hello, World!'
+  ui:
+    description: 'Test GUI'
+  config:
+    description: 'Test Configs'

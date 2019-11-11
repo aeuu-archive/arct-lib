@@ -1,0 +1,5 @@
+name: 'ArctCore'
+description: 'ArctCore is a plugin exposing ArctLib at runtime.'
+version: '1.0.0'
+api-version: '1.14'
+main: 'io.arct.arctcore.ArctCore'

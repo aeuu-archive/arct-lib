@@ -31,7 +31,7 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
     /**
      * @suppress
      */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (command.name.toLowerCase() != name)
             return false
 

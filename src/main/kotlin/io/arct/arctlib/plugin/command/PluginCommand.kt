@@ -1,7 +1,9 @@
 package io.arct.arctlib.plugin.command
 
 import io.arct.arctlib.plugin.Plugin
+import kotlin.reflect.KFunction
 import kotlin.reflect.full.findAnnotation
+import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player
  */
 abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
     var name: String = this::class.simpleName?.toLowerCase() ?: ""
+    val tab = Tab()
 
     /**
      * Create a command instance using a name.
@@ -70,5 +73,17 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
      */
     abstract fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>)
 
-    open fun arguments(sender: CommandSender, command: Command, args: Array<out String>): List<String> = listOf()
+    open fun arguments(sender: CommandSender, command: Command, args: Array<out String>): List<String> =
+        emptyList()
+
+    inner class Tab {
+        fun players(by: KFunction<String> = Player::getName): List<String> =
+            plugin.server.onlinePlayers.toList().map { by.call(it) }
+
+        fun range(range: IntRange): List<String> =
+            range.joinToString("").split("")
+
+        fun material(filter: KFunction<Boolean>? = null): List<String> =
+            Material.values().toList().map { it.name }.filter { filter != null && filter.call(it) }
+    }
 }

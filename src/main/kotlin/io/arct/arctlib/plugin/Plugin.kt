@@ -70,8 +70,12 @@ abstract class Plugin : JavaPlugin() {
      *
      * @return The message.
      */
-    open fun message(code: String): String =
-        (messages.getString(code) ?: "&4Internal Error&8: &cCould not find message&8.").color()
+    open fun message(code: String): String {
+        val format = messages.getString("format.${code.split(".")[0]}")
+        val message = messages.getString(code)?.color() ?: return "&4Internal Error&8: &cCould not find message&8.".color()
+
+        return format?.replace("%message%", message) ?: message
+    }
 
     fun reload() {
         disable()

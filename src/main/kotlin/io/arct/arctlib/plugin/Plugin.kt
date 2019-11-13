@@ -70,11 +70,13 @@ abstract class Plugin : JavaPlugin() {
      *
      * @return The message.
      */
-    open fun message(code: String): String {
+    open fun message(code: String, vararg arguments: String): String {
         val format = messages.getString("format.${code.split(".")[0]}")
-        val message = messages.getString(code)?.color() ?: return "&4Internal Error&8: &cCould not find message&8.".color()
+        var message = messages.getString(code) ?: return "&4Internal Error&8: &cCould not find message&8.".color()
 
-        return format?.replace("%message%", message) ?: message
+        arguments.forEachIndexed { i, arg -> message = message.replace("{$i}", arg) }
+
+        return (format?.replace("{message}", message) ?: message).color()
     }
 
     fun reload() {

@@ -1,6 +1,6 @@
 package io.arct.arctlib.ui
 
-import io.arct.arctlib.plugin.Plugin
+import io.arct.arctlib.plugin.event.PluginListener
 import org.bukkit.Bukkit
 import org.bukkit.entity.HumanEntity
 import org.bukkit.event.Event
@@ -155,9 +155,7 @@ open class GUI(val name: String, rows: Int) {
     /**
      * The GUI Listener.
      */
-    object Listener : org.bukkit.event.Listener {
-        private var registered: Boolean = false
-
+    object Listener : PluginListener() {
         /**
          * @suppress
          */
@@ -197,19 +195,6 @@ open class GUI(val name: String, rows: Int) {
 
             e.result = Event.Result.DENY
             e.isCancelled = true
-        }
-
-        /**
-         * Register this listener to a plugin.
-         *
-         * @param plugin The plugin to register the Listener to.
-         */
-        fun register(plugin: Plugin) {
-            if (registered)
-                return
-
-            plugin.server.pluginManager.registerEvents(this, plugin)
-            registered = true
         }
     }
 }

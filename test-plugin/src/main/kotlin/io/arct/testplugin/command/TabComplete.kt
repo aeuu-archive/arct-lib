@@ -22,9 +22,8 @@ class TabComplete(plugin: Plugin) : PluginCommand(plugin) {
             2 -> args[1] matching tab.range(1..10)
             3 -> args[2] matching tab.players()
             4 -> args[3] matching tab.players(Player::getLocale)
-            5 -> args[4] matching tab.players(Player::getUniqueId::toString)
-            6 -> args[5] matching tab.material()
-            7 -> args[6] matching tab.material(Material::isHoe)
+            5 -> args[5] matching tab.material()
+            6 -> args[6] matching tab.material(Material::isHoe)
 
             else -> emptyList()
         }

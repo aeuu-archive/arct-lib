@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionType
  *
  * @return The created [ItemStack].
  */
-fun ItemStack(name: String?, lore: String?, material: Material, count: Int = 1): ItemStack {
+fun ItemStack(name: String? = null, lore: String? = null, material: Material, count: Int = 1): ItemStack {
     val item = ItemStack(material, count)
     val meta = item.itemMeta!!
 
@@ -43,7 +43,7 @@ fun ItemStack(name: String?, lore: String?, material: Material, count: Int = 1):
  *
  * @return The created [ItemStack].
  */
-fun ItemStack(name: String?, lore: String?, type: PotionType, count: Int = 1, splash: Boolean = false): ItemStack {
+fun ItemStack(name: String? = null, lore: String? = null, type: PotionType, count: Int = 1, splash: Boolean = false): ItemStack {
     val item = ItemStack(name, lore, if (splash) Material.SPLASH_POTION else Material.POTION, count)
     val meta = item.itemMeta as PotionMeta
 

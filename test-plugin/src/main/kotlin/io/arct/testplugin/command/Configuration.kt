@@ -1,5 +1,6 @@
 package io.arct.testplugin.command
 
+import io.arct.arctlib.exceptions.commands.InvalidArgumentsException
 import io.arct.arctlib.extentions.color
 import io.arct.arctlib.extentions.fetch
 import io.arct.arctlib.extentions.inventory
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player
 class Configuration(plugin: Plugin) : PluginCommand("config", plugin) {
     override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
         if (args.isEmpty())
-            return
+            throw InvalidArgumentsException(this)
 
         player!!
 

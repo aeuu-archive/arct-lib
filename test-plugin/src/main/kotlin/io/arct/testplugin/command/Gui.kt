@@ -1,5 +1,6 @@
 package io.arct.testplugin.command
 
+import io.arct.arctlib.exceptions.commands.InvalidArgumentsException
 import io.arct.arctlib.extentions.ItemStack
 import io.arct.arctlib.extentions.color
 import io.arct.arctlib.plugin.Plugin
@@ -18,7 +19,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 class Gui(plugin: Plugin) : PluginCommand("ui", plugin) {
     override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
         if (args.isEmpty())
-            return
+            throw InvalidArgumentsException(this)
 
         (when (args[0].toLowerCase()) {
             "custom" ->
@@ -44,7 +45,7 @@ class Gui(plugin: Plugin) : PluginCommand("ui", plugin) {
                         e.whoClicked.sendMessage("&eSelected: &fCancel".color())
                     }
 
-            else -> return
+            else -> throw InvalidArgumentsException(this)
         }).show(player!!)
     }
 

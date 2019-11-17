@@ -1,6 +1,7 @@
 package io.arct.arctlib.plugin
 
 import io.arct.arctlib.configuration.Configurations
+import io.arct.arctlib.exceptions.PluginException
 import io.arct.arctlib.extentions.color
 import io.arct.arctlib.plugin.command.PluginCommand
 import io.arct.arctlib.ui.GUI
@@ -17,24 +18,24 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 abstract class Plugin : JavaPlugin() {
     /**
-     * The standard [FileConfiguration] file for the plugin (Alias for configurations["config"]).
+     * The standard [Configuration] file for the plugin (Alias for configurations["config"]).
      */
     @get:JvmName("mainConfig")
     var config: FileConfiguration
-        get() = configurations["config"]!!
+        get() = configurations["config"] as FileConfiguration
         set(v) { configurations["config"] = v }
 
     /**
-     * The message [FileConfiguration] file for the plugin (Alias for configurations["messages"]).
+     * The message [Configuration] file for the plugin (Alias for configurations["messages"]).
      */
     var messages: FileConfiguration
-        get() = configurations["messages"]!!
+        get() = configurations["messages"] as FileConfiguration
         set(v) { configurations["messages"] = v }
 
     /**
      * A [HashMap] of the [Plugin]'s [Configuration] files.
      */
-    var configurations: MutableMap<String, FileConfiguration> = mutableMapOf(
+    var configurations: MutableMap<String, Configuration> = mutableMapOf(
         "config" to Configurations.yaml("config.yml", this),
         "messages" to Configurations.yaml("messages.yml", this)
     )
@@ -77,6 +78,15 @@ abstract class Plugin : JavaPlugin() {
         arguments.forEachIndexed { i, arg -> message = message.replace("{$i}", arg) }
 
         return (format?.replace("{message}", message) ?: message).color()
+    }
+
+    open infix fun except(exception: PluginException): String {
+        val format = messages.getString("format.error")
+        var message = messages.getString(exception.node) ?: return "&4Internal Error&8: &cCould not find message&8.".color()
+
+        exception.arguments.forEachIndexed { i, arg -> message = message.replace("{$i}", arg) }
+
+        return (format?.replace("{message}", message)?.replace("{exception}", exception::class.simpleName?.toLowerCase() ?: "Exception") ?: message).color()
     }
 
     fun reload() {

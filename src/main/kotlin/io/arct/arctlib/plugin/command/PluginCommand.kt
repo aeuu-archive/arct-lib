@@ -1,7 +1,11 @@
 package io.arct.arctlib.plugin.command
 
+import io.arct.arctlib.exceptions.PluginException
+import io.arct.arctlib.exceptions.commands.NoConsoleException
+import io.arct.arctlib.exceptions.commands.NoPlayerException
 import io.arct.arctlib.plugin.Plugin
 import kotlin.reflect.KFunction
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.findAnnotation
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -38,16 +42,21 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
         val player = if (sender is Player) sender else null
 
         if (player == null && this::class.findAnnotation<ExecutableBy.Console>() == null) {
-            sender.sendMessage(plugin.message("error.no-console"))
+            NoConsoleException().send(plugin, sender)
             return true
         }
 
         if (player != null && this::class.findAnnotation<ExecutableBy.Player>() == null) {
-            sender.sendMessage(plugin.message("error.no-player"))
+            NoPlayerException().send(plugin, sender)
             return true
         }
 
-        run(sender, player, command, args)
+        try {
+            run(sender, player, command, args)
+        } catch (e: PluginException) {
+            e.send(plugin, sender)
+        }
+
         return true
     }
 
@@ -80,10 +89,16 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
         fun players(by: KFunction<String> = Player::getName): List<String> =
             plugin.server.onlinePlayers.toList().map { by.call(it) }
 
+        fun players(by: KProperty1<Player, String>): List<String> =
+            plugin.server.onlinePlayers.toList().map { by.call(it) }
+
         fun range(range: IntRange): List<String> =
             range.joinToString("").split("")
 
         fun material(filter: KFunction<Boolean>? = null): List<String> =
-            Material.values().toList().map { it.name }.filter { filter != null && filter.call(it) }
+            Material.values().toList().map { it.name }.filter { filter?.call(it) ?: true }
+
+        fun material(filter: KProperty1<Material, Boolean>): List<String> =
+            Material.values().toList().map { it.name }.filter { filter.call(it) }
     }
 }

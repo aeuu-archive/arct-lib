@@ -52,7 +52,7 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
         }
 
         try {
-            run(sender, player, command, args)
+            run(sender, player, command, args.toList())
         } catch (e: PluginException) {
             e.send(plugin, sender)
         }
@@ -67,7 +67,7 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
      */
     fun register(): PluginCommand {
         plugin.getCommand(name)?.setExecutor(this)
-        plugin.getCommand(name)?.setTabCompleter { sender, command, _, args -> arguments(sender, command, args).sorted() }
+        plugin.getCommand(name)?.setTabCompleter { sender, command, _, args -> arguments(sender, command, args.toList()).sorted() }
 
         return this
     }
@@ -80,9 +80,9 @@ abstract class PluginCommand(protected val plugin: Plugin) : CommandExecutor {
      * @param command The [Command] instance.
      * @param args The parameters given from the command.
      */
-    abstract fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>)
+    abstract fun run(sender: CommandSender, player: Player?, command: Command, args: List<String>)
 
-    open fun arguments(sender: CommandSender, command: Command, args: Array<out String>): List<String> =
+    open fun arguments(sender: CommandSender, command: Command, args: List<String>): List<String> =
         emptyList()
 
     inner class Tab {

@@ -17,7 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 
 @ExecutableBy.Player
 class Gui(plugin: Plugin) : PluginCommand("ui", plugin) {
-    override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
+    override fun run(sender: CommandSender, player: Player?, command: Command, args: List<String>) {
         if (args.isEmpty())
             throw InvalidArgumentsException(this)
 

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 @ExecutableBy.Player
 @ExecutableBy.Console
 class Simple(plugin: Plugin) : PluginCommand("simple", plugin) {
-    override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
+    override fun run(sender: CommandSender, player: Player?, command: Command, args: List<String>) {
         sender.sendMessage("Hello, World!")
     }
 }

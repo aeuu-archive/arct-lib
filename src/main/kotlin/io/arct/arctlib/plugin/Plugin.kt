@@ -86,7 +86,7 @@ abstract class Plugin : JavaPlugin() {
 
         exception.arguments.forEachIndexed { i, arg -> message = message.replace("{$i}", arg) }
 
-        return (format?.replace("{message}", message)?.replace("{exception}", exception::class.simpleName?.toLowerCase() ?: "Exception") ?: message).color()
+        return (format?.replace("{message}", message)?.replace("{exception}", exception::class.simpleName ?: "Exception") ?: message).color()
     }
 
     fun reload() {

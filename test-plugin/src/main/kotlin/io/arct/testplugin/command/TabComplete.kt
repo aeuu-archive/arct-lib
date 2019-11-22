@@ -12,11 +12,11 @@ import org.bukkit.entity.Player
 
 @ExecutableBy.Player
 class TabComplete(plugin: Plugin) : PluginCommand(plugin) {
-    override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
+    override fun run(sender: CommandSender, player: Player?, command: Command, args: List<String>) {
         player!!.sendMessage(args.toString())
     }
 
-    override fun arguments(sender: CommandSender, command: Command, args: Array<out String>): List<String> =
+    override fun arguments(sender: CommandSender, command: Command, args: List<String>): List<String> =
         when (args.size) {
             1 -> args[0] matching listOf("minecraft", "letsplay", "server", "aaaaa")
             2 -> args[1] matching tab.range(1..10)

@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 
 @ExecutableBy.Player
 class Configuration(plugin: Plugin) : PluginCommand("config", plugin) {
-    override fun run(sender: CommandSender, player: Player?, command: Command, args: Array<out String>) {
+    override fun run(sender: CommandSender, player: Player?, command: Command, args: List<String>) {
         if (args.isEmpty())
             throw InvalidArgumentsException(this)
 
